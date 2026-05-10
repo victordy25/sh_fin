@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>변수 입력 가이드 — 부동산 10년 자산전략 시뮬레이터</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f6f3;
+  --surface: #ffffff;
+  --surface2: #f2f0ec;
+  --border: #e2dfd8;
+  --text: #1a1916;
+  --text2: #6b6860;
+  --text3: #a09d96;
+  --blue: #1a5fb4;
+  --blue-bg: #eef3fb;
+  --blue-text: #12407a;
+  --blue-border: #aac4e8;
+  --green: #2e6d22;
+  --green-bg: #edf5ea;
+  --green-text: #1e4a16;
+  --green-border: #aad4a0;
+  --amber: #9a5e0a;
+  --amber-bg: #fdf3e2;
+  --amber-text: #6b4007;
+  --amber-border: #e8c97a;
+  --red: #c0392b;
+  --red-bg: #fdecea;
+  --red-text: #8b2a1f;
+  --red-border: #f0a8a3;
+  --purple: #5b3fad;
+  --purple-bg: #f0edfb;
+  --purple-text: #3d2878;
+  --purple-border: #c0b0f0;
+  --teal: #1a7a6e;
+  --teal-bg: #e4f5f3;
+  --teal-text: #115048;
+  --teal-border: #90d4cc;
+  --radius: 12px;
+  --radius-sm: 7px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.7;
+}
+a { color: var(--blue); text-decoration: none; }
+.header {
+  background: var(--text);
+  color: #fff;
+  padding: 2.5rem 3rem 2rem;
+}
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+.header p { font-size: 0.78rem; color: #9a9890; font-weight: 300; line-height: 1.6; }
+.badge-row { display: flex; gap: 6px; margin-top: 1rem; flex-wrap: wrap; }
+.badge {
+  font-size: 0.68rem; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px; letter-spacing: .03em;
+}
+.badge-b { background: rgba(26,95,180,.3); color: #93bbf0; }
+.badge-g { background: rgba(46,109,34,.3); color: #8fcc80; }
+.badge-a { background: rgba(154,94,10,.3); color: #e0b06a; }
+.badge-r { background: rgba(192,57,43,.3); color: #f09090; }
+
+.toc-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 3rem;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.toc-item {
+  padding: 0.85rem 1.1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text2);
+  white-space: nowrap;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
+  text-decoration: none;
+  display: block;
+  letter-spacing: .02em;
+}
+.toc-item:hover { color: var(--text); border-bottom-color: var(--border); }
+.toc-item.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+.container { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+.section {
+  margin-bottom: 2.5rem;
+  scroll-margin-top: 52px;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border);
+}
+.section-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--text);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.section-title { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+.section-sub { font-size: 0.75rem; color: var(--text2); margin-top: 1px; }
+
+.var-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 0.85rem;
+  overflow: hidden;
+}
+.var-card-header {
+  padding: 0.9rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.var-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+.var-unit {
+  font-size: 0.7rem;
+  color: var(--text3);
+  font-family: 'DM Mono', monospace;
+}
+.var-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.vtag {
+  font-size: 0.62rem; font-weight: 700; padding: 2px 8px;
+  border-radius: 4px; letter-spacing: .02em;
+}
+.vtag-b { background: var(--blue-bg); color: var(--blue-text); border: 1px solid var(--blue-border); }
+.vtag-g { background: var(--green-bg); color: var(--green-text); border: 1px solid var(--green-border); }
+.vtag-a { background: var(--amber-bg); color: var(--amber-text); border: 1px solid var(--amber-border); }
+.vtag-r { background: var(--red-bg); color: var(--red-text); border: 1px solid var(--red-border); }
+.vtag-p { background: var(--purple-bg); color: var(--purple-text); border: 1px solid var(--purple-border); }
+.vtag-t { background: var(--teal-bg); color: var(--teal-text); border: 1px solid var(--teal-border); }
+
+.example-box {
+  background: var(--surface2);
+  border-radius: 6px;
+  padding: 6px 14px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.example-label { font-size: 0.62rem; color: var(--text3); }
+.example-val { font-size: 1.05rem; font-weight: 700; font-family: 'DM Mono', monospace; color: var(--text); }
+
+.var-card-body { padding: 1rem 1.25rem; }
+.desc { font-size: 0.78rem; color: var(--text2); line-height: 1.75; margin-bottom: 0.75rem; }
+
+.how-to {
+  background: var(--blue-bg);
+  border: 1px solid var(--blue-border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.6rem;
+}
+.how-to-title { font-size: 0.68rem; font-weight: 700; color: var(--blue-text); margin-bottom: 0.4rem; letter-spacing: .03em; text-transform: uppercase; }
+.how-to-body { font-size: 0.75rem; color: var(--blue-text); line-height: 1.7; }
+.how-to-body strong { font-weight: 700; }
+
+.tip-box {
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-border);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 1rem;
+  font-size: 0.73rem;
+  color: var(--amber-text);
+  line-height: 1.7;
+  margin-bottom: 0.6rem;
+}
+.tip-box::before { content: '💡 '; font-weight: 700; }
+
+.warn-box {
+  background: var(--red-bg);
+  border: 1px solid var(--red-border);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 1rem;
+  font-size: 0.73rem;
+  color: var(--red-text);
+  line-height: 1.7;
+  margin-bottom: 0.6rem;
+}
+.warn-box::before { content: '⚠️ '; font-weight: 700; }
+
+.find-box {
+  background: var(--green-bg);
+  border: 1px solid var(--green-border);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 1rem;
+  font-size: 0.73rem;
+  color: var(--green-text);
+  line-height: 1.7;
+  margin-bottom: 0.6rem;
+}
+.find-box::before { content: '🔍 어디서 확인? '; font-weight: 700; }
+
+.divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+.intro-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+}
+.intro-item { text-align: center; }
+.intro-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.intro-title { font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem; }
+.intro-desc { font-size: 0.7rem; color: var(--text2); line-height: 1.6; }
+
+.step-flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+.step-item {
+  flex: 1;
+  padding: 1rem;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+.step-item:last-child { border-right: none; }
+.step-num { font-size: 0.65rem; font-weight: 700; color: var(--text3); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; }
+.step-title { font-size: 0.78rem; font-weight: 700; margin-bottom: 2px; }
+.step-sub { font-size: 0.65rem; color: var(--text2); }
+
+.formula-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text);
+  line-height: 1.8;
+  margin-bottom: 0.6rem;
+}
+.formula-box .comment { color: var(--text3); }
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.comparison-table th {
+  background: var(--surface2);
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.7rem;
+  border: 1px solid var(--border);
+  color: var(--text2);
+}
+.comparison-table td {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  line-height: 1.5;
+  vertical-align: top;
+}
+.comparison-table tr:nth-child(even) td { background: var(--surface2); }
+
+.footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.68rem;
+  color: var(--text3);
+  border-top: 1px solid var(--border);
+  line-height: 1.8;
+}
+
+@media (max-width: 700px) {
+  .header { padding: 1.5rem; }
+  .toc-bar { padding: 0 1rem; }
+  .container { padding: 1.5rem 1rem 3rem; }
+  .intro-card { grid-template-columns: 1fr; }
+  .step-flow { flex-direction: column; }
+  .step-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .step-item:last-child { border-bottom: none; }
+  .var-card-header { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>📖 변수 입력 가이드</h1>
+      <p>부동산 10년 자산전략 시뮬레이터 — 각 항목별 의미, 확인 방법, 입력 예시를 정리했습니다</p>
+      <div class="badge-row">
+        <span class="badge badge-b">🏠 매매</span>
+        <span class="badge badge-g">🔑 전세</span>
+        <span class="badge badge-a">🏢 월세</span>
+        <span class="badge badge-r">⚠️ 규제·세금</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toc-bar">
+  <a class="toc-item active" href="#sec1">1. 자금 현황</a>
+  <a class="toc-item" href="#sec2">2. 취득 비용</a>
+  <a class="toc-item" href="#sec3">3. 전세·월세</a>
+  <a class="toc-item" href="#sec4">4. 대출 조건</a>
+  <a class="toc-item" href="#sec5">5. 수입·지출</a>
+  <a class="toc-item" href="#sec6">6. 수익률·상승률</a>
+  <a class="toc-item" href="#sec7">시나리오 이해</a>
+</div>
+
+<div class="container">
+
+<!-- INTRO -->
+<div class="intro-card">
+  <div class="intro-item">
+    <div class="intro-icon">🎯</div>
+    <div class="intro-title">이 시뮬레이터의 목적</div>
+    <div class="intro-desc">같은 돈으로 매매·전세·월세 중<br>어떤 선택이 10년 후 가장<br>큰 순자산을 만드는지 비교합니다</div>
+  </div>
+  <div class="intro-item">
+    <div class="intro-icon">📐</div>
+    <div class="intro-title">핵심 계산 원리</div>
+    <div class="intro-desc">주거 비용을 제외하고 남은 돈을<br>투자한다고 가정합니다<br>아파트 가치 + 투자자금 − 대출 = 순자산</div>
+  </div>
+  <div class="intro-item">
+    <div class="intro-icon">⚡</div>
+    <div class="intro-title">빠른 시작 팁</div>
+    <div class="intro-desc">기본값이 이미 설정되어 있습니다<br>본인 상황에 맞게<br>굵은 글씨 항목만 수정해보세요</div>
+  </div>
+</div>
+
+<div class="step-flow">
+  <div class="step-item">
+    <div class="step-num">Step 1</div>
+    <div class="step-title">자금 파악</div>
+    <div class="step-sub">내 돈이 얼마인지<br>정확히 파악</div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">Step 2</div>
+    <div class="step-title">대상 아파트 조사</div>
+    <div class="step-sub">네이버 부동산에서<br>매매·전세·월세 시세 확인</div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">Step 3</div>
+    <div class="step-title">대출 조건 확인</div>
+    <div class="step-sub">은행 상담 또는<br>금융감독원 대출계산기</div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">Step 4</div>
+    <div class="step-title">가정값 설정</div>
+    <div class="step-sub">상승률·수익률은<br>보수적으로 입력 권장</div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">Step 5</div>
+    <div class="step-title">3-track 비교</div>
+    <div class="step-sub">낙관·기준·비관으로<br>결과 범위 확인</div>
+  </div>
+</div>
+
+
+<!-- SECTION 1 -->
+<div class="section" id="sec1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div>
+      <div class="section-title">자금 현황</div>
+      <div class="section-sub">내가 실제로 쓸 수 있는 돈의 전체 구조를 파악하는 섹션입니다</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">유동성 자산</div>
+        <div class="var-unit">단위: 만원</div>
+        <div class="var-tags"><span class="vtag vtag-b">자산 파악용</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">20,000</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">현금, 예금, 적금, 주식·펀드처럼 비교적 빠르게 현금으로 바꿀 수 있는 자산의 합계입니다. 부동산·자동차처럼 바로 팔기 어려운 자산은 제외합니다.</div>
+      <div class="find-box">은행 앱 → 총 잔액 / 증권사 앱 → 평가금액 합산 / 국세청 홈택스 → 금융정보 조회</div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          예금 8,000 + 적금 3,000 + 주식 평가액 5,000 + 현금 4,000 = <strong>2억원 → 20,000 입력</strong><br>
+          주식은 현재 평가금액 기준 (매수가 아닌 현재 시세)으로 입력하세요
+        </div>
+      </div>
+      <div class="tip-box">연금저축·IRP 등 중도해지 가능한 연금도 일부 포함할 수 있지만, 세금·패널티를 고려해 별도 연금 자산으로 분리 입력하는 것이 더 정확합니다</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">연금 자산</div>
+        <div class="var-unit">단위: 만원</div>
+        <div class="var-tags"><span class="vtag vtag-p">장기 자산</span><span class="vtag vtag-r">인출 제한</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">5,000</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">국민연금 예상수령액, 퇴직연금(DB·DC), 개인연금저축, IRP 잔액의 합계입니다. 시뮬레이션에서는 참고용으로만 사용하며, 당장 쓸 수 없는 자금이므로 가용 자금 계산에는 포함되지 않습니다.</div>
+      <div class="find-box">국민연금 → 내연금 알아보기(nps.or.kr) / 퇴직연금 → 각 증권사·은행 앱 / 개인연금 → 금융사 앱</div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          연금저축 잔액 2,000 + IRP 1,500 + 퇴직금 예상 1,500 = <strong>5,000 입력</strong><br>
+          국민연금은 월 수령액이 아닌 지금까지 납입한 원금 기준으로 넣어도 됩니다
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">총 가용 자금 ★ 핵심 입력값</div>
+        <div class="var-unit">단위: 만원</div>
+        <div class="var-tags"><span class="vtag vtag-r">가장 중요</span><span class="vtag vtag-b">즉시 현금화 가능</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">15,000</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">지금 당장, 올해 안에 현금화해서 주거 비용으로 쓸 수 있는 금액입니다. 유동성 자산에서 당장 팔기 어려운 자산을 빼거나, 실제 통장에 있는 돈 기준으로 입력합니다. 시뮬레이션의 초기 투자금 기준이 됩니다.</div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          예금 8,000 + 당장 팔 수 있는 주식 4,000 + 적금 만기예정 3,000 = <strong>15,000 입력</strong><br>
+          손실 위험 있는 주식은 현재 평가금액의 80~90%만 반영하는 것을 권장합니다
+        </div>
+      </div>
+      <div class="warn-box">이 값이 (매매가 − 대출 + 부대비용)보다 작으면 매매 시나리오에서 종자돈이 0원이 됩니다. 반드시 실제 가능한 금액을 입력하세요</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">신용대출 / 주택담보대출(기존) / 기타 대출</div>
+        <div class="var-unit">단위: 만원 | 없으면 0 입력</div>
+        <div class="var-tags"><span class="vtag vtag-r">부채</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">0</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">현재 보유 중인 대출 잔액입니다. 새 주택 취득 시 DSR(총부채원리금상환비율) 계산에 영향을 주므로 정확하게 입력해야 합니다. 기존 주담대가 있으면 추가 대출이 어려울 수 있습니다.</div>
+      <div class="find-box">은행 앱 → 대출 현황 / 금융결제원 어카운트인포(accountinfo.or.kr) → 대출 내역 일괄조회</div>
+      <div class="tip-box">마이너스통장은 한도가 아닌 실제 사용 중인 금액만 입력하세요</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">비상예비금 목표</div>
+        <div class="var-unit">단위: 만원 | 권장: 월생활비 × 3~6개월</div>
+        <div class="var-tags"><span class="vtag vtag-r">유동성 완충</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">3,000</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">실직·의료비 등 비상상황을 위해 주거 자금과 별개로 반드시 남겨두어야 하는 현금입니다. 이 금액은 가용 자금에서 먼저 제외하고 시뮬레이션을 진행합니다.</div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          월 생활비 300만원 × 6개월 = <strong>1,800 ~ 3,000 입력</strong><br>
+          외벌이 가구는 6개월치, 맞벌이는 3개월치를 권장합니다
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">DSR 한도 / LTV 한도</div>
+        <div class="var-unit">단위: % | 현재 규제 기준값 입력</div>
+        <div class="var-tags"><span class="vtag vtag-r">금융 규제</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">2025년 기준</div><div class="example-val">DSR 40% / LTV 70%</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">
+        <strong>DSR(총부채원리금상환비율)</strong>: 연소득 대비 모든 대출의 연간 원리금 합계 비율. 이 비율 이내에서만 대출이 가능합니다.<br><br>
+        <strong>LTV(담보인정비율)</strong>: 아파트 시세 대비 최대 대출 가능 비율입니다.
+      </div>
+      <div class="find-box">금융감독원 금융소비자포털(fine.fss.or.kr) → 주택담보대출 규제 현황 / 은행 상담</div>
+      <div class="tip-box">투기과열지구·조정대상지역은 LTV가 더 낮게 적용됩니다 (40~50%). 해당 지역 아파트라면 LTV를 낮춰서 입력하세요</div>
+      <div class="formula-box">
+        DSR 계산: (연간 원리금 합계 ÷ 연소득) × 100<br>
+        <span class="comment">예) 월 원리금 150만원 × 12 = 1,800만원 ÷ 연소득 6,000만원 = 30% → 한도 내</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION 2 -->
+<div class="section" id="sec2">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div>
+      <div class="section-title">아파트 취득 비용</div>
+      <div class="section-sub">아파트를 살 때 실제로 드는 돈의 항목별 구분입니다</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">매매가 ★ 핵심 입력값</div>
+        <div class="var-unit">단위: 만원</div>
+        <div class="var-tags"><span class="vtag vtag-r">가장 중요</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">80,000</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">구입하려는 아파트의 실거래가 또는 희망 매수가입니다. 호가(부르는 가격)가 아닌 실제 거래되는 가격을 기준으로 합니다.</div>
+      <div class="find-box">국토교통부 실거래가 공개시스템(rt.molit.go.kr) / 네이버 부동산 → 실거래가 탭 / 호갱노노(hogangnono.com)</div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          8억원 = <strong>80,000 입력</strong> / 5억 5천만원 = <strong>55,000 입력</strong><br>
+          협상 여지가 있다면 목표 협상가를 기준으로 입력해도 됩니다
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">취득세율</div>
+        <div class="var-unit">단위: % | 매매가에 곱해서 자동 계산됨</div>
+        <div class="var-tags"><span class="vtag vtag-r">세금</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">일반 1주택</div><div class="example-val">1.1%</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">아파트 취득 시 내는 세금입니다. 지방교육세 포함 기준이며, 주택 수·가격·지역에 따라 달라집니다.</div>
+      <table class="comparison-table">
+        <tr><th>상황</th><th>취득세율 (지방교육세 포함)</th></tr>
+        <tr><td>6억 이하 1주택</td><td>1.1%</td></tr>
+        <tr><td>6억~9억 1주택</td><td>1.1%~3.3% (계산 필요)</td></tr>
+        <tr><td>9억 초과 1주택</td><td>3.3%</td></tr>
+        <tr><td>2주택 (조정지역)</td><td>8.8%</td></tr>
+        <tr><td>3주택 이상</td><td>12%</td></tr>
+      </table>
+      <div class="find-box">위택스(wetax.go.kr) → 지방세 미리계산 → 취득세 계산</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">중개수수료율</div>
+        <div class="var-unit">단위: % | 매매가에 곱해서 자동 계산됨</div>
+        <div class="var-tags"><span class="vtag vtag-a">비용</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">0.4%</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">부동산 중개사에게 지급하는 수수료입니다. 법정 한도 내에서 협의 가능합니다.</div>
+      <table class="comparison-table">
+        <tr><th>매매가</th><th>법정 상한 요율</th><th>한도액</th></tr>
+        <tr><td>5천만원 미만</td><td>0.6%</td><td>25만원</td></tr>
+        <tr><td>5천만~2억원</td><td>0.5%</td><td>80만원</td></tr>
+        <tr><td>2억~9억원</td><td>0.4%</td><td>없음</td></tr>
+        <tr><td>9억원 이상</td><td>0.9% 이내 협의</td><td>없음</td></tr>
+      </table>
+      <div class="tip-box">9억 이상은 협의 요율이므로 0.4~0.5%로 협상하는 경우가 많습니다. 실제 협의 예상 요율을 입력하세요</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">채권할인료</div>
+        <div class="var-unit">단위: 만원</div>
+        <div class="var-tags"><span class="vtag vtag-a">비용</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">5~10억대 아파트</div><div class="example-val">20~50</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">아파트 등기 시 국민주택채권을 의무 매입하는데, 이를 즉시 팔면 손실이 발생합니다. 이 손실분이 채권할인료입니다. 매매가에 따라 금액이 달라집니다.</div>
+      <div class="find-box">인터넷등기소(iros.go.kr) → 채권매입금액 계산기 / 부동산계산기닷컴</div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          5억 아파트 약 15~20만원 → <strong>20 입력</strong><br>
+          8억 아파트 약 30~50만원 → <strong>40 입력</strong><br>
+          모르면 <strong>30~50 사이</strong>로 넣고 나중에 수정해도 됩니다
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">등기비 + 인지세</div>
+        <div class="var-unit">단위: 만원</div>
+        <div class="var-tags"><span class="vtag vtag-a">비용</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">50</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">소유권 이전등기에 드는 법무사 비용(등기 수수료)과 인지세의 합계입니다. 법무사 수수료는 협의 가능하며, 셀프 등기 시 법무사 비용은 절약할 수 있습니다.</div>
+      <table class="comparison-table">
+        <tr><th>매매가</th><th>인지세</th><th>법무사 비용(참고)</th></tr>
+        <tr><td>1억 미만</td><td>비과세</td><td>20~30만원</td></tr>
+        <tr><td>1억~10억</td><td>15만원</td><td>30~60만원</td></tr>
+        <tr><td>10억 초과</td><td>35만원</td><td>50~80만원</td></tr>
+      </table>
+      <div class="tip-box">합산해서 40~70만원 사이로 입력하면 대부분 맞습니다. 8억 이하라면 <strong>50</strong>으로 입력하세요</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">이사비 / 수리비</div>
+        <div class="var-unit">단위: 만원 | 각각 입력</div>
+        <div class="var-tags"><span class="vtag vtag-a">초기 비용</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">이사비 / 수리비</div><div class="example-val">200 / 300</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">
+        <strong>이사비</strong>: 이삿짐 업체 비용입니다. 이동 거리·짐 양에 따라 다릅니다.<br>
+        <strong>수리비</strong>: 입주 전 도배·장판·주방·화장실 등 수리 비용입니다. 신축은 0에 가깝고, 구축은 수백만원이 들 수 있습니다.
+      </div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          이사비: 수도권 30평대 기준 평균 100~300만원 → <strong>200 입력</strong><br>
+          수리비: 신축·준신축 0~100만원, 10년 이상 구축 300~800만원<br>
+          수리 계획이 없으면 <strong>0</strong>으로 입력해도 됩니다
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">공시가격</div>
+        <div class="var-unit">단위: 만원 | 재산세·종부세 계산 기준</div>
+        <div class="var-tags"><span class="vtag vtag-r">세금 기준</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">시세의 약 60~80%</div><div class="example-val">60,000</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">정부가 공시하는 아파트의 공식 가격입니다. 실거래가와 다르며, 보통 시세의 60~80% 수준입니다. 재산세와 종합부동산세 계산의 기준이 됩니다.</div>
+      <div class="find-box">부동산공시가격 알리미(realtyprice.kr) → 아파트 이름 검색</div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          매매가 8억원 → 공시가 약 5~6억원 → <strong>55,000~60,000 입력</strong><br>
+          정확한 값은 부동산공시가격 알리미에서 단지명으로 검색하세요
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">종부세 대상 여부 / 재산세 연간</div>
+        <div class="var-unit">종부세: 선택 | 재산세: 만원/년</div>
+        <div class="var-tags"><span class="vtag vtag-r">보유세</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">재산세 예시</div><div class="example-val">80</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">
+        <strong>종부세</strong>: 공시가격 합산 11억원(1주택자 기준) 초과 시 부과됩니다. 시뮬레이터에서는 대상 선택 시 (공시가 − 11억) × 0.6%로 단순 계산합니다.<br>
+        <strong>재산세</strong>: 아파트를 보유하면 매년 7월·9월에 내는 세금입니다.
+      </div>
+      <div class="find-box">재산세: 위택스(wetax.go.kr) → 지방세 미리계산 / 또는 작년 고지서 금액 참고</div>
+      <div class="tip-box">공시가 6억 아파트 재산세는 대략 연 60~100만원 수준입니다. 정확한 계산은 위택스에서 하세요</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">양도세율</div>
+        <div class="var-unit">단위: % | 매도 시 차익에 적용</div>
+        <div class="var-tags"><span class="vtag vtag-r">매도 세금</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">단순 적용 예시</div><div class="example-val">20%</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">아파트를 팔 때 발생하는 차익에 부과하는 세금 비율입니다. 실제로는 보유기간, 1주택 비과세, 장기보유특별공제 등 다양한 조건이 적용되어 매우 복잡합니다. 시뮬레이터는 단순화하여 일괄 적용합니다.</div>
+      <table class="comparison-table">
+        <tr><th>상황</th><th>참고 세율</th></tr>
+        <tr><td>1주택 2년 이상 보유 (9억 이하)</td><td>비과세 → 0% 입력</td></tr>
+        <tr><td>1주택 2년 이상 보유 (9억 초과)</td><td>초과분에 6~45%</td></tr>
+        <tr><td>2주택 이상</td><td>기본세율 + 중과 (최대 75%)</td></tr>
+        <tr><td>보수적 시뮬레이션용</td><td>20~30% 입력 권장</td></tr>
+      </table>
+      <div class="warn-box">1주택 비과세 조건(2년 보유+거주)에 해당하면 0%로 입력하세요. 실제 세금은 반드시 세무사와 확인하세요</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION 3 -->
+<div class="section" id="sec3">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div>
+      <div class="section-title">전세 / 월세 조건</div>
+      <div class="section-sub">매매 대신 전세·월세를 선택했을 때의 비용 구조입니다</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">전세 보증금</div>
+        <div class="var-unit">단위: 만원</div>
+        <div class="var-tags"><span class="vtag vtag-g">전세 전용</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">55,000</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">같은 아파트를 전세로 들어갈 때 맡기는 보증금입니다. 보통 매매가의 60~80% 수준입니다. 시뮬레이터에서는 이 금액을 묶어두는 대신 다른 투자를 못 한다는 기회비용도 계산에 포함합니다.</div>
+      <div class="find-box">네이버 부동산 → 해당 단지 → 전세 탭 → 현재 시세 확인</div>
+      <div class="tip-box">매매가 80,000만원 → 전세 50,000~65,000 사이가 일반적입니다. 같은 단지의 전세 실거래가를 확인하세요</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">전세대출 금액 / 금리</div>
+        <div class="var-unit">단위: 만원 / % | 전세대출이 없으면 0 입력</div>
+        <div class="var-tags"><span class="vtag vtag-g">전세 전용</span><span class="vtag vtag-r">이자 비용</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">전세대출 없으면</div><div class="example-val">0 / 3.5%</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">전세 보증금을 전부 자기 돈으로 낼 수 없을 때 사용하는 전세자금대출입니다. 이자가 매년 나가므로 전세의 실질 비용이 높아집니다.</div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          전세 5억 5천만원, 보유 자금 3억 5천만원 → 부족분 2억 전세대출 → <strong>20,000 입력</strong><br>
+          전세대출 금리: 2025년 기준 시중은행 2.8~4.0% 수준 → <strong>3.5 입력</strong>
+        </div>
+      </div>
+      <div class="warn-box">전세대출이 있으면 DSR에도 반영됩니다. 은행에서 대출 가능 여부를 먼저 확인하세요</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">월세 보증금 / 월임대료 / 관리비</div>
+        <div class="var-unit">단위: 만원</div>
+        <div class="var-tags"><span class="vtag vtag-a">월세 전용</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">5,000 / 180 / 20</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">
+        <strong>보증금</strong>: 월세 계약 시 맡기는 돈 (퇴거 시 반환)<br>
+        <strong>월임대료</strong>: 매월 내는 월세<br>
+        <strong>관리비</strong>: 아파트 공용관리비 (청소·경비·수도 등). 매매·전세·월세 모두 발생합니다
+      </div>
+      <div class="find-box">네이버 부동산 → 해당 단지 → 월세 탭 / 관리비는 매물 상세 정보 확인</div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          30평대 아파트 월세: 보증금 3,000~10,000 / 월세 100~250만원이 일반적<br>
+          관리비: 20~40만원/월 (단지별로 다름)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION 4 -->
+<div class="section" id="sec4">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div>
+      <div class="section-title">대출 조건 (신규 주담대)</div>
+      <div class="section-sub">아파트 매수 시 새로 받는 주택담보대출의 조건을 입력합니다</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">대출 금액 ★ 핵심 입력값</div>
+        <div class="var-unit">단위: 만원</div>
+        <div class="var-tags"><span class="vtag vtag-r">가장 중요</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">40,000</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">새로 받을 주택담보대출 금액입니다. LTV 한도와 DSR 한도를 동시에 초과하지 않는 범위에서 설정해야 합니다.</div>
+      <div class="formula-box">
+        최대 가능 대출 = MIN(매매가 × LTV한도%, 연소득 × DSR한도% ÷ 연이율 × 대출기간)<br>
+        <span class="comment">예) 8억 × 70% = 5.6억 / DSR 40% 기준 월 원리금 한도로 역산한 금액 중 작은 값</span>
+      </div>
+      <div class="find-box">금융감독원 금융소비자정보포털(fine.fss.or.kr) → 대출 한도 계산기</div>
+      <div class="tip-box">시뮬레이터에서 DSR·LTV 검토 결과가 빨간색으로 표시되면 대출 금액을 줄여야 합니다</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">대출 금리 (기준 / 낙관 / 비관)</div>
+        <div class="var-unit">단위: % | 실제 적용 금리 입력</div>
+        <div class="var-tags"><span class="vtag vtag-b">3-track 시나리오</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">2025년 기준</div><div class="example-val">기준 3.8% / 낙관 2.8% / 비관 5.5%</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">10년간 금리가 변동할 수 있음을 고려해 낙관(금리 하락)·기준(현재 유지)·비관(금리 상승) 세 가지 시나리오로 나눠 입력합니다.</div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          <strong>기준</strong>: 현재 은행에서 실제 제시받은 금리<br>
+          <strong>낙관</strong>: 향후 금리 인하 시나리오 (기준 − 0.5~1.5%)<br>
+          <strong>비관</strong>: 향후 금리 인상 시나리오 (기준 + 1~2%)
+        </div>
+      </div>
+      <div class="find-box">은행연합회 소비자포털(portal.kfb.or.kr) → 주택담보대출 금리 비교</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">상환 방식</div>
+        <div class="var-unit">선택형</div>
+        <div class="var-tags"><span class="vtag vtag-b">대출 구조</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">일반적 선택</div><div class="example-val">원리금균등</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc"></div>
+      <table class="comparison-table">
+        <tr><th>방식</th><th>특징</th><th>월 납부금</th><th>적합한 경우</th></tr>
+        <tr><td><strong>원리금균등</strong></td><td>매월 동일한 금액 납부</td><td>일정 (예측 쉬움)</td><td>소득이 일정한 직장인</td></tr>
+        <tr><td><strong>원금균등</strong></td><td>원금 분할 + 이자 감소</td><td>초기 높고 점점 줄어듦</td><td>초기 여유자금이 충분한 경우</td></tr>
+        <tr><td><strong>만기일시</strong></td><td>이자만 납부, 만기에 원금 일시 상환</td><td>가장 낮음</td><td>단기 보유 후 매도 계획</td></tr>
+      </table>
+      <div class="tip-box">대부분의 경우 <strong>원리금균등</strong>을 선택합니다. 만기일시는 이자 총액이 가장 많습니다</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">대출 기간</div>
+        <div class="var-unit">단위: 년</div>
+        <div class="var-tags"><span class="vtag vtag-b">대출 구조</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">일반적 선택</div><div class="example-val">30년</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">대출 기간이 길수록 월 상환액은 줄어들지만 총 이자 부담은 늘어납니다. 10년 시뮬레이션이므로 기간 선택이 월 상환액과 잔여 대출에 영향을 줍니다.</div>
+      <table class="comparison-table">
+        <tr><th>기간</th><th>월 원리금 (4억, 금리 3.8%)</th><th>10년 후 잔여 대출</th></tr>
+        <tr><td>20년</td><td>약 238만원</td><td>약 2.5억</td></tr>
+        <tr><td>30년</td><td>약 186만원</td><td>약 3.1억</td></tr>
+        <tr><td>40년</td><td>약 163만원</td><td>약 3.4억</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION 5 -->
+<div class="section" id="sec5">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <div>
+      <div class="section-title">수입 / 지출</div>
+      <div class="section-sub">매월 얼마를 벌고 쓰는지 파악합니다. 주거비를 제외한 나머지가 투자로 이어집니다</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">세후 월수입 ★ 핵심 입력값</div>
+        <div class="var-unit">단위: 만원/월</div>
+        <div class="var-tags"><span class="vtag vtag-r">가장 중요</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">600</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">세금·4대보험을 제외하고 실제로 받는 월 실수령액입니다. 맞벌이라면 부부 합산 금액을 입력합니다. 상여금·성과급은 월 평균으로 환산해 포함할 수 있습니다.</div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          급여 통장 입금액 기준으로 입력 (연봉 7,200만원 → 실수령 약 500~520만원/월)<br>
+          상여금 연 1,000만원 추가 시 → 월 환산 약 83만원 추가 → <strong>580~600 입력</strong>
+        </div>
+      </div>
+      <div class="tip-box">맞벌이는 부부 합산 실수령액을 입력하세요. 육아휴직 등 예정된 소득 감소가 있다면 보수적으로 낮춰서 입력하세요</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">소득 상승률</div>
+        <div class="var-unit">단위: %/년</div>
+        <div class="var-tags"><span class="vtag vtag-b">성장 가정</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">3.0%</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">매년 소득이 얼마나 오를지에 대한 가정입니다. 승진·인상률을 반영합니다.</div>
+      <div class="how-to">
+        <div class="how-to-title">참고 수치</div>
+        <div class="how-to-body">
+          대기업 평균 연봉 인상률: 3~5% / 중소기업: 1~3% / 공무원: 1.5~2.5%<br>
+          승진 없이 단순 호봉 인상이라면 <strong>2~3%</strong>가 현실적입니다
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">월 고정지출 (주거비 제외)</div>
+        <div class="var-unit">단위: 만원/월</div>
+        <div class="var-tags"><span class="vtag vtag-r">핵심 변수</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">250</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">식비·교통비·통신비·보험료·교육비·여가비 등 주거비(월세·모기지 등)를 제외한 모든 생활비입니다. 이 금액이 클수록 저축 여력이 줄어듭니다.</div>
+      <div class="how-to">
+        <div class="how-to-title">입력 방법</div>
+        <div class="how-to-body">
+          카드 명세서 3개월치 평균으로 계산하세요<br>
+          식비 80 + 교통 20 + 통신 10 + 보험 20 + 교육·여가 60 + 기타 60 = <strong>250 입력</strong>
+        </div>
+      </div>
+      <div class="tip-box">가계부 앱(뱅크샐러드, 머니플래너 등)을 활용하면 3개월 평균을 쉽게 파악할 수 있습니다</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">지출 상승률 / 매도 시점</div>
+        <div class="var-unit">지출: %/년 | 매도: 년차 선택</div>
+        <div class="var-tags"><span class="vtag vtag-a">가정값</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">예시</div><div class="example-val">2.0% / 10년차</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">
+        <strong>지출 상승률</strong>: 물가 상승에 따라 생활비가 매년 오르는 비율. 한국 소비자물가 상승률 평균(2~3%)을 참고하세요.<br><br>
+        <strong>매도 시점</strong>: 아파트를 언제 팔 계획인지 선택합니다. 해당 연차에 양도세를 반영한 세후 순자산을 계산해 표에 ★ 표시합니다.
+      </div>
+      <div class="tip-box">매도 시점을 5년차로 설정하면 장기보유특별공제가 적용되지 않아 세금이 많을 수 있습니다. 1주택 비과세는 2년 이상 보유·거주 조건을 확인하세요</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION 6 -->
+<div class="section" id="sec6">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <div>
+      <div class="section-title">수익률 / 상승률 가정</div>
+      <div class="section-sub">미래에 대한 가정값입니다. 보수적으로 입력할수록 더 안전한 의사결정을 할 수 있습니다</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">아파트 상승률 (낙관 / 기준 / 비관)</div>
+        <div class="var-unit">단위: %/년</div>
+        <div class="var-tags"><span class="vtag vtag-b">3-track 핵심</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">예시</div><div class="example-val">5% / 3% / 0%</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">10년 동안 해당 아파트 가격이 매년 평균 얼마나 오를지에 대한 가정입니다. 이 값이 시뮬레이션 결과에 가장 큰 영향을 미칩니다.</div>
+      <table class="comparison-table">
+        <tr><th>시나리오</th><th>연 상승률</th><th>의미</th></tr>
+        <tr><td>낙관</td><td>4~6%</td><td>강남권 등 핵심지 또는 부동산 호황기</td></tr>
+        <tr><td>기준</td><td>2~4%</td><td>물가 상승 수준, 장기 평균 상승</td></tr>
+        <tr><td>비관</td><td>0~−2%</td><td>부동산 침체, 지방·외곽 지역</td></tr>
+      </table>
+      <div class="warn-box">과거 특정 시기의 급등은 미래에도 반복된다는 보장이 없습니다. 기준 시나리오는 2~3%로 보수적으로 설정하는 것을 권장합니다</div>
+      <div class="tip-box">단지별로 다르게 넣어보며 비교하는 것이 이 시뮬레이터의 핵심 활용법입니다. A단지 vs B단지 상승률을 다르게 입력해보세요</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">종자돈 투자수익률</div>
+        <div class="var-unit">단위: %/년</div>
+        <div class="var-tags"><span class="vtag vtag-g">전세·월세 핵심</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">5.0%</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">아파트 매수 대신 전·월세로 살면서 남는 돈을 투자했을 때 기대하는 연 수익률입니다. 전세·월세 시나리오의 경쟁력을 좌우하는 핵심 변수입니다.</div>
+      <table class="comparison-table">
+        <tr><th>투자 방식</th><th>기대 연 수익률</th></tr>
+        <tr><td>예금·채권</td><td>2~4%</td></tr>
+        <tr><td>배당주·ETF (코스피/S&P500)</td><td>4~7%</td></tr>
+        <tr><td>공격적 주식 투자</td><td>7~10% (변동성 큼)</td></tr>
+        <tr><td>권장 기본값</td><td>4~5% (보수적)</td></tr>
+      </table>
+      <div class="warn-box">투자 수익률을 높게 잡을수록 전세·월세 시나리오가 유리하게 나옵니다. 실제 투자 능력과 위험 감내 수준에 맞게 보수적으로 입력하세요</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">전·월세 상승률</div>
+        <div class="var-unit">단위: %/년</div>
+        <div class="var-tags"><span class="vtag vtag-a">임대 시장 가정</span></div>
+      </div>
+      <div class="example-box"><div class="example-label">입력 예시</div><div class="example-val">3.0%</div></div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">전세·월세 가격이 매년 얼마나 오를지에 대한 가정입니다. 전세는 계약 갱신 시(2년마다) 상승분을 반영합니다. 상승률이 높을수록 전·월세 시나리오가 불리해집니다.</div>
+      <div class="how-to">
+        <div class="how-to-title">참고</div>
+        <div class="how-to-body">
+          계약갱신청구권으로 임차인은 한 번 5% 인상 제한을 요구할 수 있습니다<br>
+          장기적으로는 매매가 상승률과 비슷하게 움직이는 경향이 있습니다<br>
+          매매 상승률과 동일하게 입력하는 것이 일반적입니다
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SECTION 7 -->
+<div class="section" id="sec7">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <div>
+      <div class="section-title">시나리오 탭 이해하기</div>
+      <div class="section-sub">같은 변수로 세 가지 미래를 동시에 시뮬레이션합니다</div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">기준 / 낙관 / 비관 시나리오</div>
+        <div class="var-unit">탭 전환 후 실행 버튼 누르기</div>
+        <div class="var-tags"><span class="vtag vtag-b">3-track 분석</span></div>
+      </div>
+    </div>
+    <div class="var-card-body">
+      <div class="desc">탭을 전환하면 해당 시나리오의 아파트 상승률과 대출 금리가 자동으로 적용되어 다른 결과를 보여줍니다.</div>
+      <table class="comparison-table">
+        <tr><th>시나리오</th><th>적용 변수</th><th>활용 방법</th></tr>
+        <tr><td>기준</td><td>기준 상승률 + 기준 금리</td><td>현재 상황이 10년간 유지될 때</td></tr>
+        <tr><td>낙관</td><td>낙관 상승률 + 낙관 금리</td><td>부동산 호황 + 금리 인하 시</td></tr>
+        <tr><td>비관</td><td>비관 상승률 + 비관 금리</td><td>부동산 침체 + 금리 인상 시</td></tr>
+      </table>
+      <div class="tip-box">세 시나리오 모두에서 같은 전략이 유리하다면 그 선택에 자신감을 가져도 됩니다. 시나리오마다 결과가 뒤바뀐다면 더 신중한 결정이 필요합니다</div>
+      <div class="how-to">
+        <div class="how-to-title">권장 분석 순서</div>
+        <div class="how-to-body">
+          1. 기준 시나리오 먼저 실행 → 전반적인 경향 파악<br>
+          2. 비관 시나리오 확인 → 최악의 경우에도 버틸 수 있는지 확인<br>
+          3. 낙관 시나리오 확인 → 상방 기대치 파악<br>
+          4. 9칸 비교 막대 차트에서 전략별·시나리오별 분포 종합 판단
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="var-card">
+    <div class="var-card-header">
+      <div>
+        <div class="var-name">결과 해석 — 어떤 전략을 선택할까?</div>
+      </div>
+    </div>
+    <div class="var-card-body">
+      <table class="comparison-table">
+        <tr><th>상황</th><th>유리한 전략</th><th>이유</th></tr>
+        <tr><td>아파트 상승률 > 투자 수익률</td><td>매매</td><td>부동산 레버리지 효과가 더 크다</td></tr>
+        <tr><td>투자 수익률 > 아파트 상승률</td><td>전세</td><td>남는 돈 투자가 더 유리하다</td></tr>
+        <tr><td>가용 자금이 부족할 때</td><td>전세 또는 월세</td><td>무리한 매매는 역효과</td></tr>
+        <tr><td>대출 이자 부담이 클 때</td><td>전세</td><td>이자가 없어 저축 여력이 높다</td></tr>
+        <tr><td>이동 가능성이 있을 때</td><td>월세</td><td>유동성 최우선</td></tr>
+      </table>
+      <div class="warn-box">이 시뮬레이터는 재정적 측면만 계산합니다. 심리적 안정감, 학군, 실거주 만족도, 가족 계획 등 비재무적 요소도 반드시 함께 고려하세요</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- container -->
+
+<div class="footer">
+  본 가이드는 일반적인 참고용 정보이며, 투자 자문이나 법적·세무적 조언이 아닙니다.<br>
+  세금 관련 사항은 세무사, 대출 관련 사항은 은행 상담을 통해 반드시 확인하시기 바랍니다.<br><br>
+  📊 부동산 10년 자산전략 시뮬레이터 변수 가이드
+</div>
+
+<script>
+  const tocItems = document.querySelectorAll('.toc-item');
+  const sections = document.querySelectorAll('.section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if(window.scrollY >= s.offsetTop - 80) current = s.id; });
+    tocItems.forEach(t => {
+      t.classList.toggle('active', t.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>
